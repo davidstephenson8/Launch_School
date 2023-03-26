@@ -1,0 +1,59 @@
+Write pseudocode for the following:
+
+a method that returns the sum of two integers
+
+Start
+Get two integers from the user
+Sum the two integers
+Set the result of the sum equal to a variable
+Print the result to the user
+End
+
+a method that takes an array of strings, and returns a string that is all those strings concatenated together
+
+Take the first value in the array and store it in a variable
+Concatenate the second value in the array to the first and store the new string
+Take the third value in the array and add it to the string formed from the first and second values
+Continue through the entire array
+Once the program has added each value to the string, return the variable with all concatenated strings
+
+
+a method that takes an array of integers, and returns a new array with every other element from the original array, starting with the first element. 
+
+Start
+Read first element from array
+Pass it into a new array
+Skip next element
+Read third element from array
+Pass it into the array created above
+Continue this process until the end of the array
+
+a method that determines the index of the 3rd occurrence of a given character in a string. For instance, if the given character is 'x' and the string is 'axbxcdxex', the method should return 6 (the index of the 3rd 'x'). If the given character does not occur at least 3 times, return nil.
+
+Start
+Read first letter of string
+Pass letter into an array, increment second value in the array by one
+Read second letter for string
+If equal to letter in first array, increment second value in the array by one
+Else create a new array and increment second value in the array by one
+Read third letter of string
+If equal to letter in first or second arrays, increment second value in the array by one
+Check to see if any of the second values in our arrays are equal to 3. 
+If any of the values are equal to 3, return the first value of the array
+Else continue looping through string
+Continue until some 2nd array value is equal to 3. 
+End
+
+a method that takes two arrays of numbers and returns the result of merging the arrays. The elements of the first array should become the elements at the even indexes of the returned array, while the elements of the second array should become the elements at the odd indexes. 
+
+Start
+Read the first value of the first array. 
+Add it to a new array
+Read the first value of the second array
+Add it to the new array
+Read the second value of the first array
+Add it to the new array
+Read the second value of the second array
+Add it to the new array
+Continue until you've added all values from both arrays
+End

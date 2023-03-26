@@ -1,0 +1,7 @@
+
+welcome: "Welcome to your mortgage calculator!"
+introduction: "We need three pieces of information, your loan amount, your APR and the duration of your loan"
+loan_amount: "Let's start with your loan amount!"
+APR: "Ok, your APR next. In full percentage points, eg 6.25 or 3.125"
+loan_duration: "Finally your loan duration. In years please!"
+monthly_payment: "Your monthly payment is "

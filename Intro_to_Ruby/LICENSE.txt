@@ -1,0 +1,5 @@
+<<<<<<< HEAD
+Don't use this stuff
+=======
+Not sure if Chris Lee wants people to do whatever they want with this stuff. I'd check with him before you do anything with this.
+>>>>>>> main-holder
