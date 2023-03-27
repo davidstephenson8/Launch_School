@@ -84,9 +84,9 @@ string[24, 9] # returns "Utah Jazz"
 - returns either a new string with the characters reversed, or mutates the original string and reverses the characters. 
   ```ruby
   string = "abcde"
-  string.reverse = "edcba"
-  string = "abcde"
-  string.reverse! = "edcba"
+  string.reverse == "edcba" #returns true
+  string == "abcde" #true
+  string.reverse! == "edcba" #returns true
   string == "edcba" # returns true
   ```
 - ``String#size``
