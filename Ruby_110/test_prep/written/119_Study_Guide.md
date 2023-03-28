@@ -85,7 +85,7 @@ string[24, 9] # returns "Utah Jazz"
   ```ruby
   string = "abcde"
   string.reverse == "edcba" #returns true
-  string == "abcde" #true
+  string == "abcde" # true
   string.reverse! == "edcba" #returns true
   string == "edcba" # returns true
   ```
@@ -114,25 +114,200 @@ string.split()
   - iterates up to an argument from the integer that the method is called on
 # Array methods: all?, any?, each, each_with_index, each_with_object, fetch, first, include?, join, last, map, map!, partition, pop, push, reverse, reverse!, select, select!, shift, slice, slice!, sort, sort!, unshift
 - ``Array#all?``
+  - can be passed without an argument, with an argument, or with a block
+  - with no argument returns true if all elements in the array are truthy
+  - with an argument it returns true if obj.=== every element (I don't fully understand this. It seems like it's obj== element but more complicated)
+  - with a block, returns true if every object returns truthy values
+  ```ruby
+  [0, 1, :foo].all? # => true
+  [0, nil, 2].all? # => false
+  [].all? # => true
+
+  [0, 1, 2].all? { |element| element < 3 } # => true
+  [0, 1, 2].all? { |element| element < 2 } # => false
+
+  ['food', 'fool', 'foot'].all?(/foo/) # => true
+  ['food', 'drink'].all?(/bar/) # => false
+  [].all?(/foo/) # => true
+  [0, 0, 0].all?(0) # => true
+  [0, 1, 2].all?(1) # => false
+  ```
 - ``Array#any?``
+  - similar to Array#all? but instead of checking to see if each element matches the criteria, returns true if any of the elements of the array are truthy (no argument) return a truthy value (when passed to block) or are === argument (when passed an argument)
+  ```ruby
+  [nil, 0, false].any? # => true
+  [nil, false].any? # => false
+  [].any? # => false
+  ['food', 'drink'].any?(/foo/) # => true
+  ['food', 'drink'].any?(/bar/) # => false
+  [].any?(/foo/) # => false
+  [0, 1, 2].any?(1) # => true
+  [0, 1, 2].any?(3) # => false
+  [0, 1, 2].any? {|element| element > 1 } # => true
+  [0, 1, 2].any? {|element| element > 2 } # => false 
+  ```
 - ``Array#each``
+  - iterates over array elements
+  ```ruby
+  a = [:foo, 'bar', 2]
+  a.each {|element|  puts "#{element.class} #{element}" }
+  #this is the output
+  Symbol foo
+  String bar
+  Integer 2
+  ```
 - ``Array#each_with_index``
+  - calls the block with each element and index. Returns self. Kind of technically Enumerator#each_with_index
+  ```ruby
+  a = []
+  h = {foo: 0, bar: 1, baz: 2}
+  h.each_with_index {|element, i| a.push([i, element]) }
+  # => {:foo=>0, :bar=>1, :baz=>2}
+  a # => [[0, [:foo, 0]], [1, [:bar, 1]], [2, [:baz, 2]]]
+  ```
 - ``Array#each_with_object``
+  - calls the block with each element and an object specified as an argument.
+  ```ruby
+  (1..4).each_with_object([]) {|i, a| a.push(i**2) }
+  # => [1, 4, 9, 16]
+
+  {foo: 0, bar: 1, baz: 2}.each_with_object({}) {|(k, v), h| h[v] = k }
+  # => {0=>:foo, 1=>:bar, 2=>:baz}
+  ```
 - ``Array#fetch``
+  - returns the element at the index. If out of array bounds returns an error
+  ```ruby
+  a.fetch(-1) # => 2
+  a.fetch(-2) # => "bar"
+  a.fetch(1) # => "bar"
+  ```
+  also takes a second argument as a default value, which is what's if the index is out of range
 - ``Array#first``
+  - returns the first element when no argument is given
+  - if passed an integer as an argument, returns a number of elements from the beginning of the array equal to that integer
+  ```ruby
+  a = [:foo, 'bar', 2]
+  a.first # => :foo
+  a # => [:foo, "bar", 2]
+  a = [:foo, 'bar', 2]
+  a.first(2) # => [:foo, "bar"]
+  a = [:foo, 'bar', 2]
+  a.first(50) # => [:foo, "bar", 2]
+  ```
 - ``Array#include?``
+  - returns true if an element of the array is equivalent to the argument. Otherwise returns false
+  ```ruby
+  [0, 1, 2].include?(2) # => true
+  [0, 1, 2].include?(3) # => false
+  ```
 - ``Array#join``
+  - returns a string of elements contained within the array. Can take an argument that specifies what they'll be joined with in between. Elements are converted into strings with to_s. 
+  ```ruby
+  a = [:foo, 'bar', 2]
+  a.join # => "foobar2"
+  a = [:foo, 'bar', 2]
+  a.join("\n") # => "foo\nbar\n2"
+  ```
 - ``Array#last``
+  - returns last element if no argument is given
+  - returns last x arguments if x is an integer
+  ```ruby
+  a = [:foo, 'bar', 2]
+  a.last # => 2
+  a # => [:foo, "bar", 2]
+  a = [:foo, 'bar', 2]
+  a.last(2) # => ["bar", 2]
+  ```
 - ``Array#map(!)``
+  - Calls the block given with each element of the array and returns an array of the return values from each block call
+  - if called with a bang, mutates the calling object, replacing each element with the return values from the block
+  ```ruby
+  a = [:foo, 'bar', 2]
+  a1 = a.map {|element| element.class }
+  a # => [:foo, 'bar', 2]
+  a1 # => [Symbol, String, Integer]
+  a = [:foo, 'bar', 2]
+  a.map! { |element| element.class } # => [Symbol, String, Integer]
+  a # => [Symbol, String, Integer]
+  ```
 - ``Array#partition``
+  - returns a two dimensional array. First array contains elements that return truthy values when passed to the block, the other array contains all other elements
+  ```ruby
+  p = (1..4).partition {|i| i.even? }
+  p # => [[2, 4], [1, 3]]
+  p = ('a'..'d').partition {|c| c < 'c' }
+  p # => [["a", "b"], ["c", "d"]]
+  h = {foo: 0, bar: 1, baz: 2, bat: 3}
+  p = h.partition {|key, value| key.start_with?('b') }
+  p # => [[[:bar, 1], [:baz, 2], [:bat, 3]], [[:foo, 0]]]
+  p = h.partition {|key, value| value < 2 }
+  p # => [[[:foo, 0], [:bar, 1]], [[:baz, 2], [:bat, 3]]]
+  ```
 - ``Array#pop``
+- removes and returns trailing element
+  ```ruby
+  a = [:foo, 'bar', 2]
+  a.pop # => 2
+  a # => [:foo, "bar"]
+  ```
 - ``Array#push``
+  - appends trailing elements
+  ```ruby
+  a = [:foo, 'bar', 2]
+  a.push(:baz, :bat) # => [:foo, "bar", 2, :baz, :bat]
+  ```
 - ``Array#reverse(!)``
+  - reverses elements in array. Can be mutating with !
+  ```ruby
+  a = ['foo', 'bar', 'two']
+  a1 = a.reverse
+  a1 # => ["two", "bar", "foo"]
+  ```
 - ``Array#select(!)``
+  - returns array with elements that return truthy value when passed to block
+  - with a bang removes objects from Array that return falsy value
+  ```ruby
+  a = [:foo, 'bar', 2, :bam]
+  a1 = a.select {|element| element.to_s.start_with?('b') }
+  a1 # => ["bar", :bam]
+  ```
 - ``Array#shift``
+  - removes and returns leading elements
+  ```ruby
+  a = [:foo, 'bar', 2]
+  a.shift # => :foo
+  a # => ['bar', 2]
+  ```
 - ``Array#slice(!)``
+  - it's an alias for #[]
+  - returns an element at the index passed in as an argument
+  - with two arguments returns an array of a length that matches the second argument from the index that matches the first argument
+  - can also be passed a range
+```ruby
+a = [:foo, 'bar', 2]
+a[0] # => :foo
+a[2] # => 2
+a # => [:foo, "bar", 2]
+a = [:foo, 'bar', 2]
+a[0, 2] # => [:foo, "bar"]
+a[1, 2] # => ["bar", 2]
+a[0..-2] # => [:foo, "bar"]
+```
 - ``Array#sort(!)``
+  - sorts the array using ``<=>`` and returns the results when no block is passed
+  - if a block is passed, negative values are sorted earlier, zeros are equivalent, positive values are sorted later
+```ruby
+  - a = 'abcde'.split('').shuffle
+a # => ["e", "b", "d", "a", "c"]
+a1 = a.sort
+a1 # => ["a", "b", "c", "d", "e"]
+```
 - ``Array#unshift``
+  - prepends objects to self
+  ```ruby
+  a = [:foo, 'bar', 2]
+  a.unshift(:bam, :bat) # => [:bam, :bat, :foo, "bar", 2]
+  ```
 # Hash methods: all?, any?, each_key, each_value, empty?, include?, key, key?, keys, map, select, select!, value?, values
 - ``Hash#all?``
 - ``Hash#any?``
@@ -163,8 +338,7 @@ string.split()
 
 [Source](https://launchschool.com/books/ruby/read/methods#chainingmethods)
 
-- method chaining
-  - if a method returns a value, another method can be called directly on that value. This is called "chaining." For example
+- if a method returns a value, another method can be called directly on that value. This is called "chaining." For example
 
 ```ruby
 # this method chain gets an input from the user and returns it as a string, 
