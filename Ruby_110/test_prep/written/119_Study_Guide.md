@@ -310,24 +310,100 @@ a1 # => ["a", "b", "c", "d", "e"]
   ```
 # Hash methods: all?, any?, each_key, each_value, empty?, include?, key, key?, keys, map, select, select!, value?, values
 - ``Hash#all?``
+  - can be passed a block and will return true if all elements return a truthy value when passed to said block
+  - other weird stuff you can do here, but I don't think it's likely to come up
+  ```ruby
+  {foo: 0, bar: 1, baz: 2}.all? {|key, value| value < 3 } # => true
+  {foo: 0, bar: 1, baz: 2}.all? {|key, value| value < 2 } # => false
+  ```
 - ``Hash#any?``
+  - similar to #all?, but is different in that it returns true if h.assoc(key) == object
+    - Hash#assoc returns a two value array that contains the key and value
+```ruby
+h = {foo: 0, bar: 1, baz: 2}
+h.any?([:bar, 1]) # => true
+h.any?([:bar, 0]) # => false
+h.any?([:baz, 1]) # => false
+``` 
+- with a block just returns true if any element returns a truthy value when passed to the block
+```ruby
+h = {foo: 0, bar: 1, baz: 2}
+h.any? {|key, value| value < 3 } # => true
+h.any? {|key, value| value > 3 } # => false
+```
 - ``Hash#each_key``
+  - Calls the block passed to it with each key
+```ruby
+h = {foo: 0, bar: 1, baz: 2}
+h.each_key {|key| puts key }  # => {:foo=>0, :bar=>1, :baz=>2}
+```
 - ``Hash#each_value``
+  - calls the block passed to it with each value
+```ruby
+h = {foo: 0, bar: 1, baz: 2}
+h.each_value {|value| puts value } # => {:foo=>0, :bar=>1, :baz=>2}
+```
 - ``Hash#empty?``
+  - returns true if there's nothing in the hash, false otherwise
+```ruby
+{}.empty? # => true
+{foo: 0, bar: 1, baz: 2}.empty? # => false
+```
 - ``Hash#include?``
+  - returns true if key is found in self. Probably better aliased as ``has_key?`` or ``key?``
 - ``Hash#key``
+  - returns the key for the first key-value pair with the given value
+```ruby
+h = {foo: 0, bar: 2, baz: 2}
+h.key(0) # => :foo
+h.key(2) # => :bar
+h.key(3) # => nil
+```
 - ``Hash#key(?)``
+  - returns true if key is found in self. Probably better aliased as ``has_key?`` or ``key?``
 - ``Hash#keys``
+  - returns an array containing all keys in self
+```ruby
+h = {foo: 0, bar: 1, baz: 2}
+h.keys # => [:foo, :bar, :baz]
+```
 - ``Hash#map``
+  - returns an array of objects returned by a block
+```ruby
+{a: 1, b: 2, c: 3}.map {|key, value| puts "this is the key #{key}. This is the value #{value}"} # returns [nil. nil. nil]
+```
 - ``Hash#select(!)``
+  - returns a hash with all of the elements that return a truthy value when passed to a block. 
+```ruby
+a = {foo: 0, bar: 1, baz: 2}.select {|key, value| key.start_with?('b') }
+a # => {:bar=>1, :baz=>2}
+```
 - ``Hash#value?``
+  - returns true if value is present in the hash. Also aliased as #has_value?
+```ruby
+{a: 1, b: 2, c: 3}.value?(3) #returns true
+{a: 1, b: 2, c: 3}.has_value?(5) # returns false
+```
 - ``Hash#values``
+  - returns an array with all of the values in the hash
+```ruby
+{a: 1, b: 2, c: 3}.values # returns [1, 2, 3]
+h = {foo: 0, bar: 1, baz: 2}
+h.values # => [0, 1, 2]
+```
 # iteration, break and next
+[Source](https://launchschool.com/lessons/6a5eccc0/assignments/de35245d)
 - ``break``
+  - breaks out of the iterator completely
+  - positioning can determine whether the code in an interation is performed at least once regardless, or if it could potentially not be executed at all.
 - ``next``
+  - moves to the next iteration without stopping iteration
+  - can be positioned similarly to ``break`` to allow or disallow at least one iteration.
 # selection and transformation
 - selection
+  - takes values from the original enumerator and returns them if they return a truthy value when passed to a block. It doesn't change these values. The length of the collection returned by select can be a different length than the original collection because not every value will necessarily return a truthy value. 
 - transformation
+  - uses the return value of the block to generate values that are returned in a new enumerable. The length of this enumerable is the same as the original. 
 # nested data structures and nested iteration
 - nested data structures
 - nested iteration
