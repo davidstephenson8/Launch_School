@@ -93,6 +93,10 @@ string[24, 9] # returns "Utah Jazz"
   - typically use #[]= method
 # Hash operations: indexing, string and symbol keys
 - indexing
+  - don't really have strict indexing with hashes. Hashes with equivalent key value pairs in any order are considered to be equivalent
+```ruby
+{one: 1, two: 2, three: 3} == {three: 3, two: 2, one: 1} #returns true
+```
 - string keys
 - symbol keys
 # String methods: chars, concat, count, downcase, downcase!, freeze, include?, replace, reverse, reverse!, size, slice, slice!, split, strip, strip!, upcase, upcase!, upto
