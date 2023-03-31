@@ -1,7 +1,5 @@
-array = [1, 2, 3, 4, 5]
-
-a =  array.select do |num|
-  puts num if num.odd?
+words = %w(jump trip laugh run talk)
+new_array = words.map do |word| 
+  word.start_with?("t")
 end
-
-p a
+p new_array

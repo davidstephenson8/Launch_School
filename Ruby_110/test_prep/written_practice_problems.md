@@ -363,7 +363,7 @@ What does the following code return? What does it output? Why? What concept does
 arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 arr.select { |n| n.odd? }
 ```
-This code returns an array containing all of the odd integers in ``arr``. 
+This code returns an array containing all of the odd integers in ``arr``. It doesn't output anything. This shows that ``select`` filters the given array based on the return value from the block as it passes each element to it. The even integers in ``arr`` return false, and so they aren't added to the array. The odd integers return true, so they are added to the returned array. 
 ### Example 3
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
@@ -374,6 +374,7 @@ new_array = arr.select do |n|
 end
 p new_array
 ```
+This code outputs an array containing all of the same numbers that we see in ``arr``. This array is different from ``arr`` however, because the ``select`` method returns a new array. Each element in ``arr`` returns a truthy value when passed to the block, so each element is selected. 
 ### Example 4
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
@@ -385,6 +386,7 @@ new_array = arr.select do |n|
 end
 p new_array
 ```
+This code returns an empty array, because the block returns a falsy value, ``nil`` regardless of what value is passed to it from the array. Because the value is false for each element, no elements are selected and an empty array is returned. 
 ### Example 5
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
@@ -395,6 +397,7 @@ new_array = words.map do |word| 
 end
 p new_array
 ```
+This will return an array of booleans, because that's what the ``start_with?`` method returns. ``map`` takes the return from the block and adds it to a new collection. So an aray [false, true, false, false, true] is returned, based on what each element returns when they're passed to the ``star_with?`` method. 
 ### Example 6
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
@@ -402,6 +405,7 @@ What does the following code return? What does it output? Why? What concept does
 arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 arr.each { |n| puts n }
 ```
+it outputs each element of the array, and returns the original array. The ``each`` method iterates through the array, it doesn't change any of the values inside of it, and it doesn't return a modified array. 
 ### Example 7
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
