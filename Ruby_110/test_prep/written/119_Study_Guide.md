@@ -98,7 +98,9 @@ string[24, 9] # returns "Utah Jazz"
 {one: 1, two: 2, three: 3} == {three: 3, two: 2, one: 1} #returns true
 ```
 - string keys
+  - any object can be used as a key in a hash. This includes strings. It's important to be sure you're using the correct syntax to refer to an object, so "" around strings and : with a symbol. 
 - symbol keys
+  - symbols are the convention to be used as keys in Ruby. They're typically thought of as immutable strings. 
 # String methods: chars, concat, count, downcase, downcase!, freeze, include?, replace, reverse, reverse!, size, slice, slice!, split, strip, strip!, upcase, upcase!, upto
 ## ``String#chars``
   - this method splits the string into its component characters and returns an array with each separate character in the string as an element in the array. 
@@ -464,11 +466,11 @@ h.values # => [0, 1, 2]
 - transformation
   - uses the return value of the block to generate values that are returned in a new enumerable. The length of this enumerable is the same as the original. 
 Here's a table to keep track of the similarities and differences between select, transform and iteration
-| Method      | Action            |Return value of block | New collection returned? | Length of new collection|
-|-------------|-------------------|----------------------|--------------------------|--------------------------|
-| each        | iteration         | not considered       | no                       | same as original         |
-| map         | transformation    | truthiness considered| yes                      | same as original         |
-| select      | selection         | Yes                  | yes                      | any length up to original|
+- | Method      | Action            |Return value of block | New collection returned? | Length of new collection  |
+- |-------------|-------------------|----------------------|--------------------------|--------------------------|
+- | each        | iteration         | not considered       | no                       | same as original         |
+- | map         | transformation    | truthiness considered| yes                      | same as original         |
+- | select      | selection         | Yes                  | yes                      | any length up to original|
 # nested data structures and nested iteration
 ## nested data structures
   - a nested data structure is an array within an array, hash within a hash, etc. 
