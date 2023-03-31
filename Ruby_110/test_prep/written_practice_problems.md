@@ -37,9 +37,9 @@ puts a
 puts b
 ```
 
-- this code returns ``nil`` once and outputs 4 and then throws an error when it attempts to pass b to the ``puts``
+This code returns ``nil`` once and outputs 4 and then throws an error when it attempts to pass b to the ``puts``
 method. This is because the local variable ``b`` is not assigned to a value that's accessible outside of the 
-block's scope.  
+block's scope. Blocks have scopes that allow methods and variables in their external scope to be accessed inside of the block, but internal variable assignments are inaccessible outside of the block. 
 
 ### Example 3
 
@@ -58,6 +58,9 @@ end
 puts a
 puts b
 ```
+This code returns nil and nil, and ouputs 3 and 2. The local variable ``a`` is accessible within the scope of the 
+block called by the ``loop`` method. As a result, when the ``=`` operator is used, the value that local variable
+``c`` points to, 3, is reassigned to ``a``. This demonstrates the concept of variable reassignment and variable scope. 
 
 ### Example 4
 
@@ -75,7 +78,7 @@ end
 
 example('hello')
 ```
-
+This code outputs hello three times. It returns nil three times. This happens because of the way that the ``loop`` method works. It accepts a block that it iterates though. Each time the block is called, the local variable ``i`` is reassigned to a value one less then its current value. Each time the block is executed, the loop method checks to see if ``i`` is equal to ``0``. If this condition is met, the break statement is executed, and the loop method is exited. 
 ### Example 5
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
@@ -89,7 +92,7 @@ end
 word = "Hello"
 greetings(word)
 ```
-
+this code returns nil twice and outputs the string object ``"Hello"`` one one line and the string object ``"Goodbye"`` on the next. The reason why it outputs ``"Goodbye"`` is simple, it's passed as an argument to the ``puts`` method from within the ``greetings`` method. The puts method executes as expected, and returns its argument and outputs ``nil``. Why ``Hello`` is output is a little tricker. The local variable ``word`` is initialized to ``"Hello"``. Then word is passed to the ``greetings`` method as an argument. The method assigns the method scoped variable ``str`` to the value pointed to by ``word``. Then ``puts`` is called with ``str`` as an argument, so the value of ``str`` is output.
 [Problem link](https://launchschool.com/lessons/a0f3cd44/assignments/9e9e907c)
 
 ### Example 6
@@ -109,6 +112,7 @@ end
 
 puts "Your total is #{sum}"
 ```
+This code snippet sums all of the values in an array. It outputs ``"Your total is 10.``. It does this because each time the block passed to the loop method is executed, sum is reassigned to a value equal to its current value plus the value of the array accessed by the ``[]`` method with ``counter`` passed in as an argument. The loop method stops iterating once the ``counter`` variable is equal to the size of the array.  
 
 ### Example 7
 
@@ -123,6 +127,7 @@ end
 
 p a
 ```
+This code returns ``"Bill"`` and outputs ``"Bill"``. This is demonstrating block scope again. The block has a scope that allows the local variable ``a`` to be accessed from within the block. The block is executed 5 times, and each time it reassigns ``a`` to ``"Bill"``. This is because blocks can access outer scopes. When the ``p`` method is called on ``a`` it outputs the string a was reassigned to inside of the block, and returns that same string. 
 
 ### Example 8
 
@@ -140,6 +145,7 @@ end
 puts animal
 puts var
 ```
+This code snippet throws an error, demonstrating the concept of variable scope. The local variable ``var`` is initialized inside of the block, and so is inaccessible outside of the block. The code snippet does output ``cat`` and return nil before this error is encountered. 
 
 ### Variable Shadowing
 
@@ -342,68 +348,106 @@ def add_name(arr, name)  arr = arr << nameendnames = ['bob', 'kim']add_name(nam
 
 What does the following code return? What does it output? Why? What concept does it 	demonstrate?
 
-array = [1, 2, 3, 4, 5]array.select do |num|   puts num if num.odd?end
-
+```ruby
+array = [1, 2, 3, 4, 5]
+p array.select do |num|   
+  puts num if num.odd?
+end
+```
+this code outputs 1, 3, and 5, and then returns an empty array. This is because the ``select`` method evaluates the return value of the block to determine if the current element should be added to a new array. Because the puts method returns nil, each element returns a falsy value when passed to the block, so no elements are added to the array returned by ``select``. This demonstrates the concept of ``select`` as a filter.
 ### Example 2
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
 
-arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]arr.select { |n| n.odd? }
-
+```ruby
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+arr.select { |n| n.odd? }
+```
+This code returns an array containing all of the odd integers in ``arr``. 
 ### Example 3
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
-
-arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]new_array = arr.select do |n|   n + 1endp new_array
-
+```ruby
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+new_array = arr.select do |n|
+   n + 1
+end
+p new_array
+```
 ### Example 4
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
-
-arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]new_array = arr.select do |n|   n + 1  puts nendp new_array
-
+```ruby
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+new_array = arr.select do |n| 
+  n + 1  
+  puts n
+end
+p new_array
+```
 ### Example 5
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
-
-words = %w(jump trip laugh run talk)new_array = words.map do |word|  word.start_with?("t")endp new_array
-
+```ruby
+words = %w(jump trip laugh run talk)
+new_array = words.map do |word|  
+  word.start_with?("t")
+end
+p new_array
+```
 ### Example 6
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
-
-arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]arr.each { |n| puts n }
-
+```ruby
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+arr.each { |n| puts n }
+```
 ### Example 7
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
-
-arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]incremented = arr.map do |n|             n + 1            endp incremented
-
+```ruby
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+incremented = arr.map do |n|
+  n + 1
+end
+p incremented
+```
 ### Example 8
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+new_array = arr.map do |n|   
+  n > 1
+end
 
-arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]new_array = arr.map do |n|   n > 1endp new_array
-
+p new_array
+```
 ### Example 9
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
-
-**arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]new_array = arr.map do |n|   n > 1  puts nendp new_array**
-
+```ruby
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+new_array = arr.map do |n| 
+  n > 1  
+  puts n
+end
+p new_array
+```
 ### Example 10
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+```ruby
 a = "hello"[1, 2, 3].map { |num| a }
-
+```
 ### Example 11
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
-
-[1, 2, 3].each do |num|  puts numend
-
+```ruby
+[1, 2, 3].each do |num|
+  puts num
+end
+```
 ### Other Collection Methods
 
 [Link to all examples below](https://launchschool.com/lessons/85376b6d/assignments/d86be6b5)
