@@ -416,6 +416,7 @@ incremented = arr.map do |n|
 end
 p incremented
 ```
+This code returns an array with values increased by one from the original array. ``map`` transforms, which means it returns an array with each value determined by the return value of the block when each successive element is passed to it. In this case, each integer is passed to the block and returns ``n + 1``. This return is stored in local variable ``incremented`` which is called with ``p``. The return and output of this method is the new array.
 ### Example 8
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
@@ -427,6 +428,7 @@ end
 
 p new_array
 ```
+This code returns an array of booleans. The value of these booleans is determined by what each element returns when passed as n to the expression ``n > 1``. This means the first value is false, but the rest are true. This demonstrates that ``map`` uses the return value from the block. 
 ### Example 9
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
@@ -438,12 +440,15 @@ new_array = arr.map do |n|
 end
 p new_array
 ```
+This will output an array with 10 ``nil`` because the output of the block is nil. Thhs demonstrates the concept of transformation. This array is output because when each element of ``arr`` is used in the block passed into the ``map`` method the value returned is ``nil``. 
 ### Example 10
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
 ```ruby
-a = "hello"[1, 2, 3].map { |num| a }
+a = "hello"
+[1, 2, 3].map { |num| a }
 ```
+This code outputs nothing. It does return an array of hellos, because the return value of the block is always going to be hello. This is because local variable ``a`` is initialized on line 1 to the string object ``hello``. 
 ### Example 11
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
@@ -452,6 +457,7 @@ What does the following code return? What does it output? Why? What concept does
   puts num
 end
 ```
+It outputs each number, returns the original array. It does this because ``each`` doesn't modify the original array, it simply iterates through it. 
 ### Other Collection Methods
 
 [Link to all examples below](https://launchschool.com/lessons/85376b6d/assignments/d86be6b5)

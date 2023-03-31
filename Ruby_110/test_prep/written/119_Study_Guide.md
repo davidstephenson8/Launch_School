@@ -463,6 +463,12 @@ h.values # => [0, 1, 2]
   - takes values from the original enumerator and returns them if they return a truthy value when passed to a block. It doesn't change these values. The length of the collection returned by select can be a different length than the original collection because not every value will necessarily return a truthy value. 
 - transformation
   - uses the return value of the block to generate values that are returned in a new enumerable. The length of this enumerable is the same as the original. 
+Here's a table to keep track of the similarities and differences between select, transform and iteration
+| Method      | Action            |Return value of block | New collection returned? | Length of new collection|
+|-------------|-------------------|----------------------|--------------------------|--------------------------|
+| each        | iteration         | not considered       | no                       | same as original         |
+| map         | transformation    | truthiness considered| yes                      | same as original         |
+| select      | selection         | Yes                  | yes                      | any length up to original|
 # nested data structures and nested iteration
 ## nested data structures
   - a nested data structure is an array within an array, hash within a hash, etc. 
