@@ -47,9 +47,9 @@
   - [``Hash#empty?``](#hashempty)
   - [``Hash#include?``](#hashinclude)
   - [``Hash#key``](#hashkey)
-  - [``Hash#key(?)``](#hashkey-1)
+  - [``Hash#key?``](#hashkey-1)
   - [``Hash#keys``](#hashkeys)
-  - [``Hash#map``](#hashmap)
+  - [``Hash#map(!)``](#hashmap)
   - [``Hash#select(!)``](#hashselect)
   - [``Hash#value?``](#hashvalue)
   - [``Hash#values``](#hashvalues)
@@ -57,6 +57,7 @@
   - [``break``](#break)
   - [``next``](#next)
 - [selection and transformation](#selection-and-transformation)
+  - [Here's a table to keep track of the similarities and differences between select, transform and iteration](#heres-a-table-to-keep-track-of-the-similarities-and-differences-between-select-transform-and-iteration)
 - [nested data structures and nested iteration](#nested-data-structures-and-nested-iteration)
   - [nested data structures](#nested-data-structures)
 - [shallow copy and deep copy](#shallow-copy-and-deep-copy)
@@ -79,7 +80,7 @@
 ```  
 
 ## range indexing (slicing)
-  - Range indexing is another way to return characters from a string. It's actually an alternative syntax to use the String#slice method. 
+  - Range indexing is another way to return characters from a string. It's actually an alternative syntax for the ``String#slice``[1, ] method.  
 ```ruby
 string = "John Stockton sends the Utah Jazz to the NBA finals"
 
@@ -400,6 +401,7 @@ h.each_key {|key| puts key }  # => {:foo=>0, :bar=>1, :baz=>2}
 ```
 ## ``Hash#each_value``
   - calls the block passed to it with each value
+  - returns the original hash
 ```ruby
 h = {foo: 0, bar: 1, baz: 2}
 h.each_value {|value| puts value } # => {:foo=>0, :bar=>1, :baz=>2}
@@ -420,15 +422,15 @@ h.key(0) # => :foo
 h.key(2) # => :bar
 h.key(3) # => nil
 ```
-## ``Hash#key(?)``
-  - returns true if key is found in self. Probably better aliased as ``has_key?`` or ``key?``
+## ``Hash#key?``
+  - returns true if key is found in self. Probably better aliased as ``has_key?``
 ## ``Hash#keys``
   - returns an array containing all keys in self
 ```ruby
 h = {foo: 0, bar: 1, baz: 2}
 h.keys # => [:foo, :bar, :baz]
 ```
-## ``Hash#map``
+## ``Hash#map(!)``
   - returns an array of objects returned by a block
 ```ruby
 {a: 1, b: 2, c: 3}.map {|key, value| puts "this is the key #{key}. This is the value #{value}"} # returns [nil. nil. nil]
@@ -466,11 +468,12 @@ h.values # => [0, 1, 2]
 - transformation
   - uses the return value of the block to generate values that are returned in a new enumerable. The length of this enumerable is the same as the original. 
 Here's a table to keep track of the similarities and differences between select, transform and iteration
-- | Method      | Action            |Return value of block | New collection returned? | Length of new collection  |
-- |-------------|-------------------|----------------------|--------------------------|--------------------------|
-- | each        | iteration         | not considered       | no                       | same as original         |
-- | map         | transformation    | truthiness considered| yes                      | same as original         |
-- | select      | selection         | Yes                  | yes                      | any length up to original|
+---
+| Method      | Action            |Return value of block | New collection returned? | Length of new collection  |
+|-------------|-------------------|----------------------|--------------------------|--------------------------|
+| each        | iteration         | not considered       | no                       | same as original         |
+| map         | transformation    | truthiness considered| yes                      | same as original         |
+| select      | selection         | Yes                  | yes                      | any length up to original|
 # nested data structures and nested iteration
 ## nested data structures
   - a nested data structure is an array within an array, hash within a hash, etc. 
