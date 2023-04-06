@@ -347,11 +347,11 @@ arr2 = arr1.dup
 arr2.map! do |char|
   char.upcase
 end
-puts arr1
+puts arr
 puts arr2
 ```
-``dup`` creates shallow copies, which means that ``arr1`` and ``arr2`` are different arrays but their elements both reference the same set of objects. However, because ``map!`` is a destructive method, a new object is created and placed in 
-### fObject Mutability/Mutating Methods
+``dup`` creates shallow copies, which means that ``arr1`` and ``arr2`` are different arrays but their elements both reference the same set of objects. However, because ``map!`` is a destructive method, the return value of the block replaces the original values, meaning that the elements within the array aren't mutated. Because of this ``arr1`` isn't mutated. 
+### Object Mutability/Mutating Methods
 
 [Here’s the article](https://launchschool.com/blog/mutating-and-non-mutating-methods) with some of the below examples
 
@@ -367,7 +367,7 @@ end
 s = 'hello'
 t = fix(s)
 ```
-What values do `s` and `t` have? Why?
+What values do `s` and `t` have? Why? ``s`` is ``"HELLO!"``, and ``t`` has the same value. This is because the reference to the object ``s`` references is passed to the ``fix`` method. 
 
 ### Example 2
 
@@ -378,9 +378,13 @@ def fix(value)
   value.concat('!')
 end
 s = 'hello'
-åt = fix(s)
+t = fix(s)
+p t
+p s
 ```
 What values do `s` and `t` have? Why?
+
+``s`` returns ``hello`` and ``t`` returns ``"HELLO!"``. This is because when value is reassigned on line 377, a new object is returned. This object is further modified in line 378, but neither the call to upcase or concat mutate the object referenced by ``s``. As a result, ``s`` returns the original object it references and ``t`` returns ``HELLO!``. 
 
 ### Example 3
 
@@ -392,10 +396,11 @@ def fix(value)
   value.concat('!')
 end
 s = 'hello'
-åt = fix(s)
+t = fix(s)
 ```
 What values do `s` and `t` have? Why?
 
+`s` returns ``"helloxyz"`` and ``t`` returns ``"HELLOXYZ!``. The first method on line 394 mutates the object passed to the method. On 395 this object is reassigned, so the method call to upcase and the ``concat`` method call both don't affect the original object, meaning ``s`` and ``t`` point to different objects,  
 ### Example 4
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
@@ -408,7 +413,7 @@ s = 'hello'
 t = fix(s)
 ```
 What values do `s` and `t` have? Why?
-
+Because the same object is returned from the method ``upcase!`` the object that both variables point to remains the same. As a result both objects return ``HELLO!``
 ### Example 5
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
@@ -422,6 +427,8 @@ t = fix(s)
 ```
 What values do `s` and `t` have? Why?
 
+``[]=`` is mutating, so both have the string value ``axc`` assigned to them. 
+
 ### Example 6
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
@@ -434,14 +441,18 @@ a_method(a)
 
 p a
 ```
+
+This code returns and outputs ``"hello world"``. This is because within the method definition, ``<<`` is used to concatenate the original string object and the string object ``' world'``. This object mutates the object passed into the method, so when ``a`` is passed to ``p`` it returns the modified string object. 
 ### Example 7
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
 ```ruby
-arr
 num = 3
+arr = [1, num]
 num = 2 * num
+p arr
 ```
+This will output an array [1, 3]. This is because integers are immutable, so when the ``*`` is called and ``num`` is assigned to that value, the element in the array isn't mutated. 
 ### Example 8
 
 What does the following code return? What does it output? Why? What concept does it demonstrate?
@@ -450,6 +461,7 @@ a = %w(a b c)
 a[1] = '-'
 p a
 ```
+This code modifies the array referenced by ``a`` and replaces the element ``b`` with ``-``. 
 ### Example 9
 
 [Link to page with #9 & #10](https://launchschool.com/lessons/a0f3cd44/assignments/4b1ad598)
@@ -592,8 +604,11 @@ It outputs each number, returns the original array. It does this because ``each`
 
 ### Example 1
 ```ruby
-[1, 2, 3].any? do |num|  num > 2end
+[1, 2, 3].any? do |num|
+  num > 2
+end
 ```
+returns ``true`` because this code returns true if any value passed to the block returns true when passed to the block. 
 ### Example 2
 ```ruby
 { a: "ant", b: "bear", c: "cat" }.any? do |key, value|  value.size > 4end

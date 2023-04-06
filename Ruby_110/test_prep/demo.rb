@@ -1,7 +1,3 @@
-arr1 = ["a", "b", "c"]
-arr2 = arr1.dup
-arr2.map do |char|
-  char.upcase
-end
-puts arr1
-puts arr2
+a = %w(a b c)
+a[1] = '-'
+p a
