@@ -608,35 +608,49 @@ It outputs each number, returns the original array. It does this because ``each`
   num > 2
 end
 ```
-returns ``true`` because this code returns true if any value passed to the block returns true when passed to the block. 
+returns ``true``. This is because the any method returns true if any element returns a true value when passed to the block associated with it. THe value 3 returns a truthy value, so ``any?`` returns true. 
 ### Example 2
 ```ruby
-{ a: "ant", b: "bear", c: "cat" }.any? do |key, value|  value.size > 4end
+{ a: "ant", b: "bear", c: "cat" }.any? do |key, value|  
+  value.size > 4
+end
 ```
+``any?`` returns false in this instance, because none of the values in the hash returns a truthy value when passed to the block. 
 ### Example 3
 ```ruby
-[1, 2, 3].all? do |num|  num > 2end
+[1, 2, 3].all? do |num|
+  num > 2
+end
 ```
+this code block returns false because only one of the values returns true when passed to the block. ``all?`` returns ``true`` when all values return a truthy value when passed to the block, and ``false`` otherwise. 
 ### Example 4
 ```ruby
-{ a: "ant", b: "bear", c: "cat" }.all? do |key, value|  value.length >= 3end
+{ a: "ant", b: "bear", c: "cat" }.all? do |key, value|
+  value.length >= 3
+end
 ```
+This code returns true, because each value has a length of greater than or equal to three. Again, the ``all?`` method returns true when all values in a collection return true when passed to its block. 
 ### Example 5
 ```ruby
-[1, 2, 3].each_with_index do |num, index|  puts "The index of #{num} is #{index}."end
+[1, 2, 3].each_with_index do |num, index|
+  puts "The index of #{num} is #{index}."
+end
 ```
+This outputs ``"The index of 1 is 0."`` etc. It returns the original array. This is because the each_with_index method iterates, it doesn't transform or select. The block variables ``num`` and ``index`` represent the element of the array being used with each iteration and that element's index, respectively. The ``each_with_index`` method is being called on the array ``[1, 2, 3]``. Within the block passed to the ``each_with_index`` method, the ``puts`` method is invoked on a string object. This string object uses string interpolation with the block variables to output a different combination of strings that convey information about what's inside of the array. The puts method outputs these strings with each iteration, but returns ``nil``. 
 ### Example 6
 ```ruby
 { a: "ant", b: "bear", c: "cat" }.each_with_object([]) do |pair, array|
   array << pair.last
 end
 ```
+This code iterates through each key/value pair and puts the value into a separate array. As a result, it returns the array %w(ant bear cat). 
 ### Example 7
 ```ruby
 { a: "ant", b: "bear", c: "cat" }.each_with_object({}) do |(key, value), hash|
   hash[value] = key
 end
 ```
+This returns a hash with the keys and values flipped. The method used for adding a new key/value pair into a hash is ``[]=`` which is what's called in the block. The value of the original hash is then passed in as the argument to the ``[]`` and is called on the ``key`` variable. 
 ### Example 8
 ```ruby
 odd, even = [1, 2, 3].partition do |num|
@@ -645,6 +659,23 @@ end
 p odd
 p even
 ```
+
+this'll create two arrays, one with all odd values and another with all of the even values contained in the original array. 
+
+### Example 9
+
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+x = 10
+
+for i in 1..x do
+  puts x - i
+end
+
+puts "Done!"
+```
+This code outputs the numbers 9-0 sequentially and then outputs the string object ``"Done!"``. On like 669 local variable ``x`` is initialized to the integer 10. On lines 671 to 673 a for statement is executed. It iterates through each value of a range from the integer ``1`` to the integer ``10``. Each iteration outputs an integer ``i``, which is the variable representing the current value of the range with each iteration, less than the value of local variable ``x``. Once the ``for`` loop gets to the last element, the loop stops iterating and the final string object, ``"Done!"`` is output using the ``puts`` method. 
+
 ### Truthiness
 
 ### Example 1
