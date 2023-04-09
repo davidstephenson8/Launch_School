@@ -166,7 +166,7 @@ string.split # returns ["this", "is", "a", "string"]
   - can take a second argument that determines the number of substrings returned
 ```ruby
 string.split(" ", 2) # returns ["this", "is a string"]
-string.split()   
+string.split(" ", 3) # returns ["this", "is", "a string"]  
 ```
 ## ``String#strip(!)``
   - removes all whitespace. 
