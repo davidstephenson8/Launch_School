@@ -1,23 +1,21 @@
 =begin
-PEDAC Template
 ==============
-(Understand the) Problem
+Problem
 ------------------------
 -  Inputs:
 -  Output:
 ---
-**Problem Domain:**
----
-**Implicit Requirements:**
----
-**Clarifying Questions:**
+** Explicit Requirements **
 1.
 2.
 3.
 ---
-**Mental Model:**
+**Implicit Requirements** (if needed)
+1.
+2.
+3.
 ---
-Examples / Test Cases / Edge Cases
+Examples 
 ----------------------------------
 **Examples:**
 -  Example 1
@@ -27,21 +25,18 @@ Examples / Test Cases / Edge Cases
   -  Inputs:
   -  Output:
 ---
-_Your Test Cases:_
--  Example 3
-  -  Inputs:
-  -  Output:
----
-_Your Edge Cases:_
--  Example 4
-  -  Inputs:
-  -  Output:
----
-Data Structure
+Data Structures
 --------------
+
 ---
+Scratch Pad/Working Area
+--------------------------------------------------
+
+
+
+
+--------------------------------------------------
 Algorithm
 ---------
-Code
-----
-=endxx
+
+=end

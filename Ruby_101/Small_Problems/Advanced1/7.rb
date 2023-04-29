@@ -34,6 +34,7 @@ return new array
 def merge(arr1, arr2)
   merged_array = []
   merged_array.concat(arr1)
+  
   merged_array
 end
 

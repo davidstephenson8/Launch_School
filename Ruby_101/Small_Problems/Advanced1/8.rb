@@ -1,21 +1,6 @@
 
 
-# def merge(arr1, arr2)
-#   return arr2 if arr1.empty?
-#   merged_array = []
-#   arr1.each do |num|
-#     merged_array << num
-#   end
-#   arr2.each do |second_array_number|
-#     merged_array.each_with_index do |first_array_number, first_array_index|
-#       if second_array_number > first_array_number && second_array_number <= merged_array[first_array_index + 1]
-#         merged_array.insert(first_array_index + 1, second_array_number)
-#         break
-#       end
-#     end
-#   end
-#   merged_array
-# end
+
 
 def merge(array1, array2)
   index2 = 0
