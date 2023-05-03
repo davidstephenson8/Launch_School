@@ -26,10 +26,6 @@ Examples
   -  Inputs:
   -  Output:
 ---
-Data Structures
---------------
-
----
 Scratch Pad/Working Area
 --------------------------------------------------
 
@@ -37,6 +33,10 @@ Scratch Pad/Working Area
 
 
 --------------------------------------------------
+Data Structures
+--------------
+
+---
 Algorithm
 ---------
 
