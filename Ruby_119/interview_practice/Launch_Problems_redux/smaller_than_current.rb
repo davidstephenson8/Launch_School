@@ -30,12 +30,13 @@ Examples
 ---
 Scratch Pad/Working Area
 --------------------------------------------------
-
+convert original array to unique numbers with unique array
 [8,1,2,2,3] - > [8, 1, 2, 3]
 iterate through the array
 with each iteration, compare each value to array of uniques. 
   transform the value to the count of uniques that are less than the current number
-[3, 0, 1, 1, 2]
+[3, 0, 1, 1, 2] for this one, can pass block to #count method to return number of elements that return a truthy value when
+passed to the block
 
 --------------------------------------------------
 Data Structures
