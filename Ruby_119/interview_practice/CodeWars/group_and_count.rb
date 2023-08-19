@@ -61,15 +61,17 @@ def group_and_count(input)
   return nil if input == nil || input == []
   result = {}
   input.each do |num|
-    if result[num] == nil
-      result[num] = 1
-    else
+    if result[num] 
       result[num] += 1
+    else
+      result[num] = 1
     end
   end
   result
 end
 
-p group_and_count([0, 1, 1, 0])
-p group_and_count(nil)
-p group_and_count([])
+p group_and_count([0, 1, 1, 0]) == {0=>2, 1=>2}
+p group_and_count([1,1,2,2,2,3]) == {1=>2, 2=>3, 3=>1}
+p group_and_count(nil) == nil
+p group_and_count([]) == nil 
+p group_and_count([1, 7, 5, -1]) == {1=>1, 7=>1, 5=>1, -1=>1}
