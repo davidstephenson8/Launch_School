@@ -19,13 +19,12 @@ Examples:
   -  Inputs:
   -  Output:
 ---
----
 Data Structure/Modelling
 --------------
 
 ---
 Algorithm
 ---------
-
+(check rules)
 ---
 =end
