@@ -1,86 +1,77 @@
+# Write a method named to_weird_case that accepts a string, and
+# returns the same sequence of characters with every 2nd character
+# in every third word converted to uppercase. Other characters
+# should remain the same.
+
 =begin
-==============
-Problem
-Write a function toWeirdCase (weirdcase in Ruby) that accepts a string, and returns the same string with all even indexed 
-characters in each word upper cased, and all odd indexed characters in each word lower cased. The indexing just 
-explained is zero based, so the zero-ith index is even, therefore that character should be upper cased and you need to 
-start over for each word.
+P
+write a method that accepts a string, and returns the same sequence of characters with every second character
+in every third word converted to uppercase. Other characters should remain the same.
+rules
+1. weirdcase means that a word alternates between lower and uppercase, starting with lowercase
+2. every third word in a given string should be weirdcase
+3. if a character is already upcase, to convert to weirdcase, character should not be modified to downcase.
+(weirdcase only modifies downcase letters, not upcase letters)
+E
+aaA bB c
 
-The passed in string will only consist of alphabetical characters and spaces(' '). Spaces will only be present if 
-there are multiple words. Words will be separated by a single space(' ').
-
-Examples:
-
-weirdcase( "String" )#=> returns "StRiNg"
-weirdcase( "Weird string case" );#=> returns "WeIrD StRiNg CaSe"
-------------------------
--  Inputs: a string
--  Output: a string (with different cases)
----
-**Explicit Requirements**
-1. each even indexed character is uppercased
-2. each odd indexed character is lowercased
-3. cases reset with each word, so the case index doesn't carry though the entire problem
----
-**Implicit Requirements** (if needed)
-1. don't consider inputs that aren't alphanumeric characters
-2.
-3.
----
-Examples 
-----------------------------------
-**Examples:**
--  Example 1
-  -  Inputs: "this"
-  -  Output: "ThIs"
--  Example 2
-  -  Inputs: "This is not acceptable"
-  -  Output: "ThIs Is NoT AcCePtAbLe"
----
-Data Structures
---------------
-arrays
----
-Scratch Pad/Working Area
---------------------------------------------------
-
-string => words => chars => words => string
-                     ^ transform these characters based on index being even or odd 
---------------------------------------------------
-Algorithm
----------
-sub method for weird case
-accepts a word
-initialize index to 0
-converts word to array of characters
-transforms each character into uppercase or lowercase based on index being even or odd
-increments index
-joins array of characters back into a string
-returns string
-
-split input string at spaces, store result in variable `words`
-transform each word with weird case sub method
-join array of transformed words, store result in `result`
-return result
+D
+string --> array
+A
+HELPER ALGO
+`weirdcase`
+given string
+initialize `chars` to the characters in string
+  assign `result` to the transform of `chars`, taking note of index
+    if the index of a character is odd, modify that character to be uppercase
+    if not, return the character
+join result
+return `result`
+MAIN ALGO
+split given string into words, assign to words
+assign `weirdcased` to the result of a transformation of `words`, taking note of index
+      if the index of the word + 1 is evenly divisible by 3, `weirdcase` the word
+join and return weirdcased
 =end
 
-def weird_word(string)
-  index = 0
-  characters = string.chars
-  characters.map do |char|
-    char.upcase! if index.even?
-    char.downcase! if index.odd?
-    index += 1
-  end
-  characters.join
-end
+# Examples:
 
 def weirdcase(string)
-  words = string.split
-  words.map! do |word|
-    weird_word(word)
+  chars = string.chars
+  result = chars.map.with_index do |char, index|
+    if index.odd?
+      char.upcase
+    else
+      char
+    end
   end
-  words.join(" ")
+  result.join
 end
 
-p weirdcase("This is not your father")
+# p weirdcase("adrensrtohinsrtohin")
+# p weirdcase("David Stephenson")
+# p weirdcase("this is a test, this is only a test")
+
+def to_weird_case(string)
+  words = string.split
+  weirdcased = words.map.with_index do |word, index|
+   if (index + 1) % 3 == 0
+    weirdcase(word) 
+   else
+    word
+   end
+  end
+  weirdcased.join(" ")
+end
+
+p to_weird_case('Lorem Ipsum is simply dummy text of the printing') ==
+                'Lorem Ipsum iS simply dummy tExT of the pRiNtInG'
+p to_weird_case(
+  'It is a long established fact that a reader will be distracted') ==
+  'It is a long established fAcT that a rEaDeR will be dIsTrAcTeD'
+p to_weird_case('aaA bB c') == 'aaA bB c'
+p to_weird_case(
+  'Miss Mary Poppins word is supercalifragilisticexpialidocious') ==
+  'Miss Mary POpPiNs word is sUpErCaLiFrAgIlIsTiCeXpIaLiDoCiOuS'
+
+# The tests above should print "true".

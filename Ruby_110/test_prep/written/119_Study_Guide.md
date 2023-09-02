@@ -130,10 +130,10 @@ string[24, 9] # returns "Utah Jazz"
   - returns true or false depending on if the string contains the substring passed in as an argument or not.
   ```ruby
   string = "this is a string"
-  string.include("i") #returns true
-  string.include("y") #returns false
-  string.include("is") #returns true
-  string.include("at") #returns false (not like count where it looks for each individual character, looks for the substring)
+  string.include?("i") #returns true
+  string.include?("y") #returns false
+  string.include?("is") #returns true
+  string.include?("at") #returns false (not like count where it looks for each individual character, looks for the substring)
   ```
 ## ``String#replace``
   - replaces the contents of the original string with the argument

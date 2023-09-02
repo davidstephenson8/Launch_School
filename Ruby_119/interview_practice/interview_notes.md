@@ -49,4 +49,8 @@ end
 # returns ["A", "A", "a", "a", "a", "a", "a", "B", "b", "E", "e", "X", "x", "x", "x"]
 ```
   - needs to be formatted in an array for ruby to recognize it
-- #index method returns the index of the element that is passed to it
+- #index method returns the index of the first element that matches what is passed to it
+- the #scan method looks for the argument passed to it in the string and returns results in an array
+```ruby
+"potatopotatopotato".scan("potato")
+#returns ["potato", "potato", "potato"]

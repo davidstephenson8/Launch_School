@@ -30,4 +30,10 @@ check rules
 ---
 =end
 
-
+def is_central(txt)
+  middle = txt.size / 2
+  characters = txt.chars
+  characters.each_with_index do |char, index|
+    return index == middle if char != " " 
+  end
+end
