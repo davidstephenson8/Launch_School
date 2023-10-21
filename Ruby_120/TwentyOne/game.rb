@@ -51,7 +51,17 @@ class Hand
 
   def to_s
     @hand.each do |card|
-      puts "a #{card.rank} of #{card.suit}"
+      if card.rank <= 10
+        puts "a #{card.rank} of #{card.suit}"
+      elsif card.rank == 11
+        puts "a Jack of #{card.suit}"
+      elsif card.rank == 12
+        puts "a Queen of #{card.suit}"
+      elsif card.rank == 13
+        puts "a King of #{card.suit}"
+      elsif card.rank == 14
+        puts "an Ace of #{card.suit}"
+      end
     end
   end  
 end
@@ -95,7 +105,6 @@ class Card
   attr_accessor :suit, :rank
 
   def initialize(suit, rank)
-    # what are the "states" of a card?
     @suit = suit
     @rank = rank
   end
@@ -141,7 +150,6 @@ class Game
     loop do
       puts "What would you like to do? You can hit (h) or stay (s)"
       answer = gets.chomp.downcase[0]
-      binding.pry
       if answer == "s" 
         break
       elsif answer == "h"
@@ -177,12 +185,36 @@ class Game
     end
   end
 
+  def reset
+    @deck = Deck.new
+    @dealer.hand = Hand.new 
+    @player.hand = Hand.new
+  end
+
+  def play_again?
+    puts "play another round? (y/n)"
+    answer = gets.chomp.downcase[0]
+    if answer == "y" 
+      true
+    else
+      false
+    end
+  end
+
   def start
-    deal_cards
-    show_initial_cards
-    player_turn
-    dealer_turn
-    show_result
+    loop do
+      deal_cards
+      show_initial_cards
+      player_turn
+      dealer_turn
+      show_result
+      if play_again?
+        reset
+      else
+        puts "cool, have a good one!"
+        break
+      end
+    end
   end
 end
 
