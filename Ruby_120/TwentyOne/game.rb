@@ -1,19 +1,17 @@
 require "pry"
 
-module Hand
+class Hand
   def initialize
     @hand = []
   end
 
   def hit(deck)
-    hand << deck.sample
-    deck.delete(hand[-1])
+    @hand << deck.get_card
   end
 
   def deal(deck)
     2.times do
-      hand << deck.sample
-      deck.delete(hand[-1])
+      @hand << deck.get_card
     end
   end
 
@@ -23,40 +21,42 @@ module Hand
 
   def total
     ranks = []
-    hand.each do |card|
+    @hand.each do |card|
       ranks << card.rank
     end
     ranks.map! do |rank|
       if rank < 10
         rank
-      elsif rank < 13
+      elsif rank <= 13
         10
       elsif rank == 14
         11
       end
     end
-  end
-  if ranks.include?(11) && ranks.sum > 21
-    ranks.map! do |rank|
-      if rank == 11
-        1
-      else
-        rank
+    if ranks.include?(11) && ranks.sum > 21
+      ranks.map! do |rank|
+        if rank == 11
+          1
+        else
+          rank
+        end
       end
     end
-  end
   ranks.sum
+  end
+
+  def show_first
+    puts @hand[0]
   end
 
   def to_s
     @hand.each do |card|
-      puts "A #{card.rank} of #{card.suit}"
+      puts "a #{card.rank} of #{card.suit}"
     end
   end  
 end
 
 class Player 
-  include Hand
   attr_accessor :hand, :name
   
   def initialize(player_type)
@@ -82,6 +82,13 @@ class Deck
     end
     @cards.shuffle!
   end
+
+  def get_card
+    card = @cards.sample
+    @cards.delete(card)
+    return card
+  end
+  
 end
 
 class Card
@@ -91,6 +98,10 @@ class Card
     # what are the "states" of a card?
     @suit = suit
     @rank = rank
+  end
+
+  def to_s
+    "a #{rank} of #{suit}"
   end
 end
 
@@ -107,17 +118,39 @@ class Game
   end
 
   def show_initial_cards
-    puts @player.hand
-    puts @dealer.hand[0]
+    system("clear")
+    puts "#{@player.name} has"
+    @player.hand.to_s
+    puts "for a score of #{@player.hand.total}"
+    puts "The dealer has"
+    @dealer.hand.show_first
+    puts "and another hidden card"
+  end
+
+  def show_final_cards
+    system("clear")
+    puts "#{@player.name} has"
+    @player.hand.to_s
+    puts "for a score of #{@player.hand.total}"
+    puts "The dealer has"
+    @dealer.hand.to_s
+    puts "for a score of #{@dealer.hand.total}"
   end
 
   def player_turn
     loop do
       puts "What would you like to do? You can hit (h) or stay (s)"
       answer = gets.chomp.downcase[0]
-      if answer == "h"
-        player.hand.hit
+      binding.pry
+      if answer == "s" 
+        break
+      elsif answer == "h"
+        @player.hand.hit(@deck)
+        show_initial_cards
       else
+        puts "Sorry, you need to type something that starts with an h (hit) or s (stay)"
+      end
+      if @player.hand.busted?
         break
       end
     end
@@ -125,18 +158,19 @@ class Game
 
   def dealer_turn
     loop do
-      break if player.hand.total > 21
-      dealer.hand.hit if dealer.hand.total < 17
-      break if dealer.hand.total > 21
+      break if @player.hand.total > 21
+      @dealer.hand.hit(@deck) if @dealer.hand.total < 17
+      break if @dealer.hand.total >= 17
     end
   end
 
   def show_result
-    if player.hand.busted?
-      puts "you busted!" 
-    elsif player.hand.total > dealer.hand.total
+    show_final_cards
+    if @player.hand.busted?
+      puts "you busted!"
+    elsif @player.hand.total > @dealer.hand.total || @dealer.hand.busted?
       puts "you win!"
-    elsif player.hand.total < dealer.hand.total
+    elsif @player.hand.total < @dealer.hand.total
       puts "you lose!"
     else
       puts "it's a tie!"
