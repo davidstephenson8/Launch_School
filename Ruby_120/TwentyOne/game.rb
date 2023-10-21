@@ -46,7 +46,7 @@ class Hand
   end
 
   def show_first
-    puts @hand[0]
+    @hand[0].to_s
   end
 
   def to_s
@@ -110,7 +110,17 @@ class Card
   end
 
   def to_s
-    "a #{rank} of #{suit}"
+    if self.rank <= 10
+      puts "a #{self.rank} of #{self.suit}"
+    elsif self.rank == 11
+      puts "a Jack of #{self.suit}"
+    elsif self.rank == 12
+      puts "a Queen of #{self.suit}"
+    elsif self.rank == 13
+      puts "a King of #{self.suit}"
+    elsif self.rank == 14
+      puts "an Ace of #{self.suit}"
+    end
   end
 end
 
@@ -121,8 +131,26 @@ class Game
     @player = Player.new("player")
   end
 
+  def explain_rules
+    system "clear"
+    puts "Welcome to twenty one!"
+    puts "The object of the game is to get a higher number of points than the dealer without going over 21"
+    puts "Number cards are worth a number equal to their rank (1s are worth 1, 2s are worth 2. etc.)"
+    puts "Face cards (jacks, queens and kings) are worth 10 points"
+    puts "Aces are initialy worth 11, but if you would bust (go over 21 points) with an ace worth 11 in your hand"
+    puts "its value converts to a 1."
+    puts "the game starts dealing two cards to the player and the dealer"
+    puts "the player can choose to add a card to their hand, or \"hit\", or stay, meaning"
+    puts "they don't want to add any cards to their hand."
+    puts "Then the dealer goes. They hit either until their hand is equal to or greater than 17 points"
+    puts "Then the values of the two hands are compared and whoever has the most points wins!"
+    puts "Good luck!"
+    puts "push enter to start the game!"
+    gets
+  end
+
   def deal_cards
-    @dealer.deal(@deck)
+    @dealer.deal(@deck)sample
     @player.deal(@deck)
   end
 
@@ -202,6 +230,7 @@ class Game
   end
 
   def start
+    explain_rules
     loop do
       deal_cards
       show_initial_cards
