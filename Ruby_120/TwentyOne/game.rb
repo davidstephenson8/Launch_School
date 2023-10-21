@@ -150,7 +150,7 @@ class Game
   end
 
   def deal_cards
-    @dealer.deal(@deck)sample
+    @dealer.deal(@deck)
     @player.deal(@deck)
   end
 
