@@ -1,35 +1,29 @@
-class Animal
-  def run
-    'running!'
-  end
+require "pry"
 
-  def jump
-    'jumping!'
+module Describable
+  def describe_shape
+    "I am a #{self.class} and have #{self.class::SIDES} sides."
   end
 end
 
-class Dog < Animal
-  def swim
-    'swimming!'
-  end
+class Shape
+  include Describable
 
-  def fetch
-    'fetching!'
+  def self.sides
+    self::SIDES
   end
-
-  def speak
-    'bark!'
+  
+  def sides
+    self.class::SIDES
   end
 end
 
-class Bulldog < Dog
-  def swim
-    "can't swim!"
-  end
+class Quadrilateral < Shape
+  SIDES = 4
 end
 
-class Cat < Animal
-  def speak
-    'meow!'
-  end
-end
+class Square < Quadrilateral; end
+
+p Square.sides 
+p Square.new.sides 
+p Square.new.describe_shape 
