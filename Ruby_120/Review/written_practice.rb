@@ -45,33 +45,33 @@
 
 # 3 
 
-module Describable
-  def describe_shape
-    "I am a #{self.class} and have #{SIDES} sides."
-  end
-end
+# module Describable
+#   def describe_shape
+#     "I am a #{self.class} and have #{SIDES} sides."
+#   end
+# end
 
-class Shape
-  include Describable
+# class Shape
+#   include Describable
 
-  def self.sides
-    self::SIDES
-  end
+#   def self.sides
+#     self::SIDES
+#   end
   
-  def sides
-    self.class::SIDES
-  end
-end
+#   def sides
+#     self.class::SIDES
+#   end
+# end
 
-class Quadrilateral < Shape
-  SIDES = 4
-end
+# class Quadrilateral < Shape
+#   SIDES = 4
+# end
 
-class Square < Quadrilateral; end
+# class Square < Quadrilateral; end
 
-p Square.sides 
-p Square.new.sides 
-p Square.new.describe_shape 
+# p Square.sides 
+# p Square.new.sides 
+# p Square.new.describe_shape 
 
 
 # What is output and why? What does this demonstrate about constant scope? 
@@ -87,47 +87,47 @@ p Square.new.describe_shape
 # self in the first method refers to the calling object. Self in the second method refers to the class. Self in the last method
 # refers to the calling object. 
 
-class AnimalClass
-  attr_accessor :name, :animals
+# class AnimalClass
+#   attr_accessor :name, :animals
   
-  def initialize(name)
-    @name = name
-    @animals = []
-  end
+#   def initialize(name)
+#     @name = name
+#     @animals = []
+#   end
   
-  def <<(animal)
-    animals << animal
-  end
+#   def <<(animal)
+#     animals << animal
+#   end
   
-  def +(other_class)
-    new_animals = animals + other_class.animals
-    new_class = AnimalClass.new("#{self.name} & #{other_class.name}")
-    new_class << new_animals
-    new_class
-  end
-end
+#   def +(other_class)
+#     new_animals = animals + other_class.animals
+#     new_class = AnimalClass.new("#{self.name} & #{other_class.name}")
+#     new_class << new_animals
+#     new_class
+#   end
+# end
 
-class Animal
-  attr_reader :name
+# class Animal
+#   attr_reader :name
   
-  def initialize(name)
-    @name = name
-  end
-end
+#   def initialize(name)
+#     @name = name
+#   end
+# end
 
-mammals = AnimalClass.new('Mammals')
-mammals << Animal.new('Human')
-mammals << Animal.new('Dog')
-mammals << Animal.new('Cat')
+# mammals = AnimalClass.new('Mammals')
+# mammals << Animal.new('Human')
+# mammals << Animal.new('Dog')
+# mammals << Animal.new('Cat')
 
-birds = AnimalClass.new('Birds')
-birds << Animal.new('Eagle')
-birds << Animal.new('Blue Jay')
-birds << Animal.new('Penguin')
+# birds = AnimalClass.new('Birds')
+# birds << Animal.new('Eagle')
+# birds << Animal.new('Blue Jay')
+# birds << Animal.new('Penguin')
 
-some_animal_classes = mammals + birds
+# some_animal_classes = mammals + birds
 
-p some_animal_classes 
+# p some_animal_classes 
 
 # What is output? Is this what we would expect when using `AnimalClass#+`? If not, how could we adjust the implementation 
 # of `AnimalClass#+` to be more in line with what we'd expect the method to return?
@@ -136,9 +136,45 @@ p some_animal_classes
 # of the actual classes, not the contents of the classes. So #+ needs to create a new class and add the animal lists together.
 # I'm thinking something like this? 
 
-def +(other_class)
-  new_animals = animals + other_class.animals
-  new_class = AnimalClass.new("#{self.name} & #{other_class.name}")
-  new_class << new_animals
-  new_class
-end
+# def +(other_class)
+#   new_animals = animals + other_class.animals
+#   new_class = AnimalClass.new("#{self.name} & #{other_class.name}")
+#   new_class << new_animals
+#   new_class
+# end
+
+# 5
+# class GoodDog
+#   attr_accessor :name, :height, :weight
+
+#   def initialize(n, h, w)
+#     @name = n
+#     @height = h
+#     @weight = w
+#   end
+
+#   def change_info(n, h, w)
+#     name = n
+#     height = h
+#     weight = w
+#   end
+
+#   def info
+#     "#{name} weighs #{weight} and is #{height} tall."
+#   end
+# end
+
+
+# sparky = GoodDog.new('Spartacus', '12 inches', '10 lbs') 
+# sparky.change_info('Spartacus', '24 inches', '45 lbs')
+# puts sparky.info 
+# => Spartacus weighs 10 lbs and is 12 inches tall.
+
+
+# We expect the code above to output `”Spartacus weighs 45 lbs and is 24 inches tall.”` Why does our `change_info` 
+# method not work as expected?
+
+# Because Ruby assumes that you're assigning a local variable here, not reassigning an instance variable. Typically when
+# a write method is defined, Ruby calls that, but if there's a choice between an write method and creating a local variable
+# Ruby decides to create a local variable first. To change this, we can make the calls to the write methods explicit by
+# calling the methods on self in each line of ``change_info``. 
