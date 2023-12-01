@@ -178,3 +178,98 @@
 # a write method is defined, Ruby calls that, but if there's a choice between an write method and creating a local variable
 # Ruby decides to create a local variable first. To change this, we can make the calls to the write methods explicit by
 # calling the methods on self in each line of ``change_info``. 
+
+# 6.
+# class Person
+#   attr_accessor :name
+
+#   def initialize(name)
+#     @name = name
+#   end
+  
+#   def change_name
+#     name = name.upcase
+#   end
+# end
+
+# bob = Person.new('Bob')
+# p bob.name 
+# bob.change_name
+# p bob.name
+
+
+# In the code above, we hope to output `'BOB'` on `line 16`. Instead, we raise an error. Why? 
+# We raise an error because Ruby, again, is attempting to create a local variable because it defaults to creating a 
+# local variable over accessing the instance variable with an write method with this syntax. As a result, within the
+# change_name method, Ruby attempts to access the local variable name which hasn't been initialized yet. The upcase
+# method doesn't work on `nil` so it returns the error message we see. 
+
+# How could we adjust this code to output `'BOB'`? 
+# Make an explicit call to the instance variable  within the #change_name method. This will allow us to access the value 
+# stored in the instance variable, and then the name in the second part of the assignment statement won't attempt to access
+# a local name variable, but it'll call the name reader method, returning @name, which will allow us to modify it.
+
+# def change_name
+#   @name = name.upcase
+# end
+
+# Something like this could also work
+
+# def change_name
+#   name.upcase!
+# end
+
+# 7.
+# class Vehicle
+#   @@wheels = 4
+
+#   def self.wheels
+#     @@wheels
+#   end
+# end
+
+# p Vehicle.wheels                             
+
+# class Motorcycle < Vehicle
+#   @@wheels = 2
+# end
+
+# p Motorcycle.wheels                           
+# p Vehicle.wheels                              
+
+# class Car < Vehicle; end
+
+# p Vehicle.wheels
+# p Motorcycle.wheels                           
+# p Car.wheels     
+
+
+# What does the code above output, and why? What does this demonstrate about class variables, and why we should avoid 
+# using class variables when working with inheritance?
+=begin
+It shows that class variables modified in subclasses of a parent class are modified for all instances of that class. Both the
+parent class and the related sibling classes for the subclass are all affected. THis is showed in the last 3 lines where 
+``Vehicle``, ``Motorcycle`` and ``Car`` all output 2.   
+=end
+
+# 8. 
+class Animal
+  attr_accessor :name
+
+  def initialize(name)
+    @name = name
+  end
+end
+
+class GoodDog < Animal
+  def initialize(color)
+    super
+    @color = color
+  end
+end
+
+bruno = GoodDog.new("brown")       
+p bruno
+
+
+# What is output and why? What does this demonstrate about `super`?
