@@ -273,3 +273,7 @@ p bruno
 
 
 # What is output and why? What does this demonstrate about `super`?
+
+=begin
+`super` calls the initialize method for the superclass and passes it the argument passed into the animal 
+=end
