@@ -253,27 +253,140 @@ parent class and the related sibling classes for the subclass are all affected. 
 =end
 
 # 8. 
-class Animal
-  attr_accessor :name
+# class Animal
+#   attr_accessor :name
 
-  def initialize(name)
-    @name = name
-  end
-end
+#   def initialize(name)
+#     @name = name
+#   end
+# end
 
-class GoodDog < Animal
-  def initialize(color)
-    super
-    @color = color
-  end
-end
+# class GoodDog < Animal
+#   def initialize(color)
+#     super
+#     @color = color
+#   end
+# end
 
-bruno = GoodDog.new("brown")       
-p bruno
+# bruno = GoodDog.new("brown")       
+# p bruno
 
 
 # What is output and why? What does this demonstrate about `super`?
 
 =begin
-`super` calls the initialize method for the superclass and passes it the argument passed into the animal 
+`super` calls the initialize method for the superclass and passes it the argument passed to it when the new GoodDog object is 
+initialized. This argument is assigned to ``name``, which in turn is assigned to ``@name``.
 =end
+
+#9.
+# class Animal
+#   def initialize
+#   end
+# end
+
+# class Bear < Animal
+#   def initialize(color)
+#     super
+#     @color = color
+#   end
+# end
+
+# bear = Bear.new("black")        
+
+
+# What is output and why? What does this demonstrate about `super`? 
+
+# This shows that `super` will pass at least one parameter to the method in the parent class, even if the parent class' method
+# doesn't call for a parameter. 
+
+#10
+
+# module Walkable
+#   def walk
+#     "I'm walking."
+#   end
+# end
+
+# module Swimmable
+#   def swim
+#     "I'm swimming."
+#   end
+# end
+
+# module Climbable
+#   def climb
+#     "I'm climbing."
+#   end
+# end
+
+# module Danceable
+#   def dance
+#     "I'm dancing."
+#   end
+# end
+
+# class Animal
+#   include Walkable
+
+#   def speak
+#     "I'm an animal, and I speak!"
+#   end
+# end
+
+# module GoodAnimals
+#   include Climbable
+
+#   class GoodDog < Animal
+#     include Swimmable
+#     include Danceable
+#   end
+  
+#   class GoodCat < Animal; end
+# end
+
+# good_dog = GoodAnimals::GoodDog.new
+# p good_dog.walk
+# p GoodAnimals::GoodDog.ancestors
+
+# What is the method lookup path used when invoking `#walk` on `good_dog`?
+
+=begin
+It first looks for the method in the lexical scope of GoodDog. It doesn't find it in GoodDog, so it moves to the Animal parent
+class. The Walkable module is included there, so it accesses the walk method at that point.
+=end
+
+#11
+class Animal
+  def eat
+    puts "I eat."
+  end
+end
+
+class Fish < Animal
+  def eat
+    puts "I eat plankton."
+  end
+end
+
+class Dog < Animal
+  def eat
+     puts "I eat kibble."
+  end
+end
+
+def feed_animal(animal)
+  animal.eat
+end
+
+array_of_animals = [Animal.new, Fish.new, Dog.new]
+
+array_of_animals.each do |animal|
+  feed_animal(animal)
+end
+
+
+# What is output and why? How does this code demonstrate polymorphism? 
+
+# All of the different classes respond to the same method call. Polymorphism is when classes respond to the same method call
+# in ways appropriate to the class. So the fact that each class also responds differently further illustrates polymorphism.
