@@ -1,15 +1,9 @@
-class Person
-  attr_reader :name
-
-  def initialize(name)
-    @name = name
-  end
-
-  def ==(other)
-    name.object_id == other.name.object_id
-  end
+# method implementation
+def test
+  yield(1)    # passing 1 block argument at block invocation time
 end
 
-al = Person.new('Alexander')
-alex = Person.new('Alexander')
-p al == alex # => true
+# method invocation
+test do |num1, num2| # expecting 2 parameters in block implementation
+  puts "#{num1} #{num2}"
+end
