@@ -118,28 +118,71 @@ class TodoList
     while counter < @todos.size
       yield @todos[counter]
       counter += 1
-      self
     end
+
+    self
   end
 
   def select
-    result = ToDoList.new
-    @todos.each |todo|
-      result.add(todo) if yield(todo)
+    result = ToDoList.new(title)
+
+    @todos.each do |todo|
+      if yield(todo) == true
+        result << todo
+      end
     end
+
     result
   end
+
+  def find_by_title(string)
+    @todos.each do |todo|
+      return todo if todo.title == string
+    end
+  end
+
+  def all_done
+    @todos.select do |todo|
+      todo.done?
+    end
+  end
+
+  def all_not_done
+    @todos.select do |todo|
+      todo.undone?
+    end
+  end
+
+  def mark_done(string)
+    @todos.each do |todo|
+      todo.done! if todo.title == string
+    end
+  end
+
+  def mark_all_done
+    @todos.each do |todo|
+      todo.done! 
+    end
+  end
+
+  def mark_all_undone
+    @todos.each do |todo|
+      todo.undone!
+    end
+  end
+  
 end
 
 todo1 = Todo.new("Buy milk")
 todo2 = Todo.new("Clean room")
 todo3 = Todo.new("Go to gym")
+todo4 = Todo.new("Buy milk")
 
 list = TodoList.new("Today's Todos")
 list.add(todo1)
 list.add(todo2)
 list.add(todo3)
+list.add(todo4)
 
-list.each do |todo|
-  puts todo                   # calls Todo#to_s
-end
+p list.find_by_title("Buy milk")
+puts list
