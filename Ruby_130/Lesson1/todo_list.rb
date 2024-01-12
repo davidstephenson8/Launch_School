@@ -27,9 +27,7 @@ class Todo
   end
 
   def ==(otherTodo)
-    title == otherTodo.title &&
-      description == otherTodo.description &&
-      done == otherTodo.done
+    title == otherTodo.title && description == otherTodo.description && done == otherTodo.done
   end
 end
 
@@ -106,10 +104,9 @@ class TodoList
   end
 
   def to_s
-    puts "---- Todays Todos ----"
-    @todos.each do |todo|
-      puts todo
-    end
+    text = "---- #{title} ----\n"
+    text << @todos.map(&:to_s).join("\n")
+    text
   end
 
   def each
@@ -124,10 +121,10 @@ class TodoList
   end
 
   def select
-    result = ToDoList.new(title)
+    result = TodoList.new(title)
 
     @todos.each do |todo|
-      if yield(todo) == true
+      if yield(todo)
         result << todo
       end
     end
