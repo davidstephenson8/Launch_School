@@ -9,12 +9,12 @@ class Device
 
   def listen
     return unless block_given?
-    recording = yield
-    record(recording)
+    audio = yield 
+    record(audio)
   end
-  
+
   def play
-    puts @recordings[-1]
+    puts @recordings
   end
 end
 
