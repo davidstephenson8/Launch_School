@@ -22,7 +22,7 @@ return `results_numeral`
 
 
 class RomanNumeral
-  NUMERAL_VALUES = {M: 1000, D: 500, C: 100, L: 50, X: 10, V: 5, I: 1}
+  NUMERAL_VALUES = {M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1}
   
   def initialize(number)
     @number = number
@@ -43,8 +43,8 @@ class RomanNumeral
         break
       else
         result = divisor.divmod(NUMERAL_VALUES[key])
-        result_numeral << key * divmod[0]
-        divisor = divmod[1]
+        result_numeral << key.to_s * result[0]
+        divisor = result[1]
       end
     end
     result_numeral
