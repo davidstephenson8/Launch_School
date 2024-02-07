@@ -1,44 +1,42 @@
-
-
-class BeerSong
-  def initialize
+class Verse
+  def initialize(number)
+    @number = number
   end
 
-  def self.verse(*number)
-    output = ""
-    number.each do |num|
-      first_number = num
-      first_number = "no more" if first_number == 0
-      if first_number == "no more"
-        second_number = 99
-      elsif first_number == 1
-        second_number = "no more"
-      else
-        second_number = num - 1
-      end
-      if output != ""
-        output << "\n#{first_number} #{first_number == 1 ? "bottle" : "bottles"} of beer on the wall, #{first_number} #{first_number == 1 ? "bottle" : "bottles"} of beer.\nTake #{first_number == 1 ? "it" : "one"} down and pass it around, #{second_number} #{second_number == 1 ? "bottle" : "bottles"} of beer on the wall.\n"
-      elsif first_number == "no more"
-        output << "No more bottles of beer on the wall, no more bottles of beer.\n" \
-                  "Go to the store and buy some more, 99 bottles of beer on the wall.\n"
-      else
-        output << "#{first_number} #{first_number == 1 ? "bottle" : "bottles"} of beer on the wall, #{first_number} #{first_number == 1 ? "bottle" : "bottles"} of beer.\nTake #{first_number == 1 ? "it" : "one"} down and pass it around, #{second_number} #{second_number == 1 ? "bottle" : "bottles"} of beer on the wall.\n"
-      end
+  def verse_lyrics
+    case @number
+    when 2
+      "2 bottles of beer on the wall, 2 bottles of beer.\n" \
+      "Take one down and pass it around, 1 bottle of beer on the wall.\n"
+    when 1
+      "1 bottle of beer on the wall, 1 bottle of beer.\n" \
+      "Take it down and pass it around, no more bottles of beer on the wall.\n"
+    when 0
+      "No more bottles of beer on the wall, no more bottles of beer.\n" \
+      "Go to the store and buy some more, 99 bottles of beer on the wall.\n"
+    else
+      "#{@number} bottles of beer on the wall, #{@number} bottles of beer.\n" \
+      "Take one down and pass it around, #{@number - 1} bottles of beer on the wall.\n"
     end
-    output
-  end
-
-  def self.verses(num1, num2)
-    verse(num1, num2)
-  end
-
-  def self.lyrics
-    output = ""
-    99.times do |num|
-      output << verse(99 - num)
-    end
-    output
   end
 end
 
-puts BeerSong.verses(99, 98)
+class BeerSong
+  def self.verse(number)
+    #lyrics for a verse
+    verse = Verse.new(number)
+    verse.verse_lyrics
+  end
+
+  def self.verses(number1, number2)
+    results = []
+    (number2..number1).to_a.reverse.each do |num|
+      results << BeerSong.verse(num)
+    end
+    results.join("\n")
+  end
+
+  def self.lyrics
+    self.verses(99, 0)
+  end
+end

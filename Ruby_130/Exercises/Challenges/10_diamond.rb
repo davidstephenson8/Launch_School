@@ -20,30 +20,41 @@
       add line to result
     join the lines in the results array with a newline
 
+1(1)      a
+2(3)     b b
+3(5)    c   c
+4(7)   d     d
+5(9)  e       e
+6(11)f         f
 =end
 
 class Diamond 
   def self.make_diamond(letter)
-    characters = 1
+    max_line_size = ("A"..letter).to_a.size + ("A"..letter).to_a.size - 1
+    middle = max_line_size / 2
     results = []
-    ("A"..letter).each do |letter|
-      line = " " * characters
-      line[0], line[-1] = letter, letter
-      results << line
-      characters += 2
-    end
-    reverse = ("A"..letter).to_a.reverse[1..-1]
-    characters -= 2
-    reverse.each do |letter|
-      characters -= 2 
-      line = " " * characters
-      line[0], line[-1] = letter, letter
+    ("A"..letter).each_with_index do |letter, index|
+      line = " " * max_line_size
+      line[middle - index], line[middle + index] = letter, letter
       results << line
     end
-    results.join("/n") + "/n"
+    reverse = ("A"...letter).to_a.reverse
+    reverse.each_with_index do |letter, index|
+      line = " " * max_line_size
+      if letter == "A"
+        line[middle] = letter
+      else
+        line[1 + index], line[-2 - index] = letter, letter
+      end
+      results << line
+    end
+    results.join("\n") + "\n"
   end
 end
 
-p Diamond.make_diamond("A")
-p Diamond.make_diamond("B")
-p Diamond.make_diamond("E")
+puts Diamond.make_diamond("A")
+puts Diamond.make_diamond("B")
+puts Diamond.make_diamond("C")
+puts Diamond.make_diamond("D")
+puts Diamond.make_diamond("E")
+puts Diamond.make_diamond("Z")
