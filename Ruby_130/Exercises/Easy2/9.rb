@@ -1,34 +1,28 @@
-def each_cons(array, segment_size)
-  
-  yield(*values)
+def each_cons(array)
+  array.each_with_index do |element, index|
+    break if index >= array.size - 1
+    yield(element, array[index + 1])
+  end
+  nil
 end
 
 hash = {}
-each_cons([1, 3, 6, 10], 1) do |value|
-  hash[value] = true
-end
-hash == { 1 => true, 3 => true, 6 => true, 10 => true }
-
-hash = {}
-each_cons([1, 3, 6, 10], 2) do |value1, value2|
+result = each_cons([1, 3, 6, 10]) do |value1, value2|
   hash[value1] = value2
 end
-hash == { 1 => 3, 3 => 6, 6 => 10 }
+p result == nil
+p hash == { 1 => 3, 3 => 6, 6 => 10 }
 
 hash = {}
-each_cons([1, 3, 6, 10], 3) do |value1, *values|
-  hash[value1] = values
+result = each_cons([]) do |value1, value2|
+  hash[value1] = value2
 end
-hash == { 1 => [3, 6], 3 => [6, 10] }
+p hash == {}
+p result == nil
 
 hash = {}
-each_cons([1, 3, 6, 10], 4) do |value1, *values|
-  hash[value1] = values
+result = each_cons(['a', 'b']) do |value1, value2|
+  hash[value1] = value2
 end
-hash == { 1 => [3, 6, 10] }
-
-hash = {}
-each_cons([1, 3, 6, 10], 5) do |value1, *values|
-  hash[value1] = values
-end
-hash == {}
+p hash == {'a' => 'b'}
+p result == nil

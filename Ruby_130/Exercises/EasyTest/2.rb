@@ -1,0 +1,1 @@
+assert_nil 'xyz', value.downcase
