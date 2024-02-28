@@ -7,18 +7,16 @@ class Device
     @recordings << recording
   end
 
-  def listen
-    return unless block_given?
-    audio = yield 
-    record(audio)
+  def listen(&block)
+    record(block.call) if block_given?
   end
 
   def play
-    puts @recordings
+    @recordings[-1]
   end
 end
 
 listener = Device.new
 listener.listen { "Hello World!" }
 listener.listen
-listener.play # Outputs "Hello World!"
+p listener.play # Outputs "Hello World!"

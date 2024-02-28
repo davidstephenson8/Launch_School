@@ -11,17 +11,17 @@ gather(items) do |*produce, wheat|
   puts wheat
 end
 
-gather(items) do | apples, *produce, wheat |
+gather(items) do | apples, *produce, wheat|
   puts apples
-  puts *produce.join(", ")
+  puts produce.join(", ")
   puts wheat
 end
 
-gather(items) do |apples, *produce|
+gather(items) do | apples, *produce |
   puts apples
-  puts *produce.join(", ")
+  puts produce.join(", ")
 end
 
-gather(items) do |*produce, wheat |
-  puts  produce.join(", ") + " and #{wheat}"
+gather(items) do | apples, corn, cabbage, wheat |
+  puts 
 end

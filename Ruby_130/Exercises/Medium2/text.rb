@@ -10,8 +10,4 @@ class Text
   def word_count
     @text.split.count
   end
-
-  def to_s
-    @text
-  end
 end

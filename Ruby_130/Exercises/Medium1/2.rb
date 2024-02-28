@@ -1,12 +1,12 @@
 class TextAnalyzer
   def process
-    text = File.open("sample_text.txt", "r")
-    yield(text.read)
-    text.close
+    file = File.open("sample_text.txt", mode = 'r')
+    yield(file.read)
+    file.close
   end
 end
 
 analyzer = TextAnalyzer.new
-analyzer.process { |text| puts "#{text.split(" ").count} words!"}
-analyzer.process { |text| puts "#{text.split("\n").count} lines!"}
-analyzer.process { |text| puts "#{text.split("\n\n").count} paragraphs!"}
+analyzer.process { |file| puts "#{file.split(" ").count} words" }
+analyzer.process { |file| puts "#{file.split("/n").count} lines"}
+analyzer.process { |file| puts "#{file.split("/n/n").count} paragraphs"}

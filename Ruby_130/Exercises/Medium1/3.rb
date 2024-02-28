@@ -5,5 +5,3 @@ def gather(items)
   yield(items)
   puts "Nice selection of food we have gathered!"
 end
-
-gather(items) { |produce| puts produce.join('; ') }
