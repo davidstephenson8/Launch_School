@@ -1,6 +1,6 @@
-def some(*set)
+def some(*set = 3, 5)
   array = set
-  p array
+  puts array
 end
 
 proc = Proc.new {"I'm a #{self}"}
